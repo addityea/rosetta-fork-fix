@@ -14,5 +14,5 @@ RUN apt-get update \
 COPY nosigtrap.c /src/nosigtrap.c
 RUN x86_64-linux-gnu-gcc -O2 -fPIC -shared -o /libnosigtrap.so /src/nosigtrap.c -ldl
 
-FROM --platform=linux/amd64 scratch
+FROM scratch
 COPY --from=rosetta-fix-build /libnosigtrap.so /libnosigtrap.so

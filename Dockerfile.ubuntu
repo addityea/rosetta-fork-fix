@@ -8,7 +8,7 @@
 # Users: FROM saditya88/ubuntu-fix:24.04-fix1  — kernels, subprocess,
 # multiprocessing and zmq all work under Rosetta on Apple Silicon.
 ARG UBUNTU_VERSION=24.04
-FROM --platform=linux/amd64 ubuntu:${UBUNTU_VERSION}
+FROM ubuntu:${UBUNTU_VERSION}
 
 COPY --from=saditya88/rosetta-fork-fix:latest /libnosigtrap.so /opt/rossetafix/libnosigtrap.so
 ENV LD_PRELOAD=/opt/rossetafix/libnosigtrap.so

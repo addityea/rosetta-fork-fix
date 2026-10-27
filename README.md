@@ -94,8 +94,8 @@ Two artifacts, both built and smoke-tested from this folder:
    `DOCKERHUB_TOKEN` secret and it runs unattended.
 
 ```bash
-docker build --provenance=false -f Dockerfile.fix   -t saditya88/rosetta-fork-fix:latest .
-docker build --provenance=false -f Dockerfile.ubuntu -t saditya88/ubuntu-fix:24.04-fix1 .
+docker build --platform=linux/amd64 --provenance=false -f Dockerfile.fix   -t saditya88/rosetta-fork-fix:latest .
+docker build --platform=linux/amd64 --provenance=false -f Dockerfile.ubuntu -t saditya88/ubuntu-fix:24.04-fix1 .
 docker push saditya88/rosetta-fork-fix:latest
 docker push saditya88/ubuntu-fix:24.04-fix1
 ```

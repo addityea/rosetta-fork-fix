@@ -21,10 +21,10 @@ RUN x86_64-linux-gnu-gcc -O2 -fPIC -shared -o /libnosigtrap.so /src/nosigtrap.c 
 
 # pixi, pinned to amd64 (without --platform, buildx resolves it to the
 # host arch and pixi then refuses a linux-64 workspace)
-FROM --platform=linux/amd64 ghcr.io/prefix-dev/pixi:latest AS pixi
+FROM ghcr.io/prefix-dev/pixi:latest AS pixi
 
 # ---- Stage 2: amd64 runtime with pixi ------------------------------
-FROM --platform=linux/amd64 debian:bookworm-slim
+FROM debian:bookworm-slim
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update \
