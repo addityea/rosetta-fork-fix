@@ -1,0 +1,18 @@
+# scratch image carrying ONLY the Rosetta fork() fix, so it can be layered
+# onto ANY glibc base:
+#
+#   COPY --from=saditya88/rosetta-fork-fix /libnosigtrap.so /opt/rossetafix/libnosigtrap.so
+#   ENV LD_PRELOAD=/opt/rossetafix/libnosigtrap.so
+#
+# build (image is amd64-only because the bug is x86_64-under-Rosetta):
+#   docker build --provenance=false -f Dockerfile.fix -t saditya88/rosetta-fork-fix:latest .
+#   docker push saditya88/rosetta-fork-fix:latest
+FROM debian:bookworm-slim AS rosetta-fix-build
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends gcc-x86-64-linux-gnu libc6-dev-amd64-cross \
+ && rm -rf /var/lib/apt/lists/*
+COPY nosigtrap.c /src/nosigtrap.c
+RUN x86_64-linux-gnu-gcc -O2 -fPIC -shared -o /libnosigtrap.so /src/nosigtrap.c -ldl
+
+FROM --platform=linux/amd64 scratch
+COPY --from=rosetta-fix-build /libnosigtrap.so /libnosigtrap.so

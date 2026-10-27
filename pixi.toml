@@ -1,0 +1,19 @@
+[workspace]
+name = "jupyter-amd64"
+version = "0.1.0"
+channels = ["conda-forge"]
+# linux-64 is the point of this image: packages that only exist for x86_64.
+platforms = ["linux-64"]
+
+[dependencies]
+python = ">=3.11,<3.13"
+jupyterlab = ">=4.4"
+ipykernel = ">=6.29"
+pyzmq = ">=26"
+nbclient = ">=0.10"
+numpy = "*"
+pandas = "*"
+
+[tasks]
+start = "jupyter lab --ip=0.0.0.0 --port=8888 --allow-root --no-browser"
+smoke = "python kernel_smoke.py"

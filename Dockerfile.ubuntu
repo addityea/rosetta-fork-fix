@@ -1,0 +1,18 @@
+# Pre-fixed Ubuntu base: same as upstream ubuntu:24.04 (amd64) plus the
+# Rosetta 2 fork() deadlock fix (see nosigtrap.c / README.md).
+#
+# Tag it with BOTH the ubuntu release and a fix revision, e.g.
+#   docker build --provenance=false -f Dockerfile.ubuntu -t saditya88/ubuntu-fix:24.04-fix1 .
+# Rebuild (bump fix or digest) whenever upstream ubuntu:24.04 updates.
+#
+# Users: FROM saditya88/ubuntu-fix:24.04-fix1  — kernels, subprocess,
+# multiprocessing and zmq all work under Rosetta on Apple Silicon.
+ARG UBUNTU_VERSION=24.04
+FROM --platform=linux/amd64 ubuntu:${UBUNTU_VERSION}
+
+COPY --from=saditya88/rosetta-fork-fix:latest /libnosigtrap.so /opt/rossetafix/libnosigtrap.so
+ENV LD_PRELOAD=/opt/rossetafix/libnosigtrap.so
+
+LABEL org.opencontainers.image.base.name="docker.io/library/ubuntu:${UBUNTU_VERSION}" \
+      org.opencontainers.image.title="ubuntu-fix" \
+      org.opencontainers.image.description="Ubuntu + LD_PRELOAD fix for the Rosetta 2 fork() deadlock (macOS 26.1+). Fixes Jupyter kernels in linux/amd64 containers on Apple Silicon."
