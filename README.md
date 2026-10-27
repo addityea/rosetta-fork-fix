@@ -134,7 +134,3 @@ Notes:
 ## Credits
 
 I don't code in `C` or `C++`, this repo was created in collaboration with `Hermes Agent` running local `Qwen3.8FlashNext` model that helped me in researching the topic and implementing the necessary fixes.
-
-## Testing
-
-I'll be running a few more tests before I make this repo public.
